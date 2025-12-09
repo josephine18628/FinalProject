@@ -1,0 +1,26 @@
+version: '3.8'
+
+# Note: This file is optional if using XAMPP MySQL directly
+# If using XAMPP, you can delete this file or use it as an alternative
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cs3_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cs3
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:
+
