@@ -77,5 +77,3 @@ try {
     logError('Login error: General error', ['error' => $e->getMessage()]);
     redirectWithMessage('../index.php', 'error', 'An error occurred. Please try again later.');
 }
-?>
-

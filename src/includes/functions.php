@@ -4,6 +4,9 @@
  * CS3 Quiz Platform
  */
 
+// Start output buffering to prevent header issues
+ob_start();
+
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -34,7 +37,10 @@ function requireLogin($redirectTo = null) {
         if ($redirectTo) {
             $_SESSION['redirect_after_login'] = $redirectTo;
         }
-        header('Location: /Individual Project/index.php');
+        // Use relative path that works on both local and live servers
+        $baseDir = dirname(dirname($_SERVER['SCRIPT_NAME']));
+        $indexPath = $baseDir . '/index.php';
+        header('Location: ' . $indexPath);
         exit();
     }
 }
@@ -209,9 +215,44 @@ function getFlashMessage() {
  * @param string $message Message content
  */
 function redirectWithMessage($url, $type, $message) {
+    // Ensure no output has been sent
+    if (headers_sent($file, $line)) {
+        logError("Headers already sent", ['file' => $file, 'line' => $line, 'url' => $url]);
+        die("Cannot redirect - headers already sent in $file on line $line");
+    }
+    
     setFlashMessage($type, $message);
-    header('Location: ' . $url);
+    
+    // Convert relative URLs to work properly
+    // If URL starts with ../, resolve it relative to current script
+    if (strpos($url, '../') === 0) {
+        $url = dirname($_SERVER['SCRIPT_NAME']) . '/' . $url;
+        // Clean up the path (remove ../)
+        $url = resolveRelativePath($url);
+    }
+    
+    header('Location: ' . $url, true, 302);
     exit();
+}
+
+/**
+ * Resolve relative path components in a URL
+ * @param string $path Path with potential ../ components
+ * @return string Resolved path
+ */
+function resolveRelativePath($path) {
+    $parts = explode('/', $path);
+    $resolved = [];
+    
+    foreach ($parts as $part) {
+        if ($part === '..') {
+            array_pop($resolved);
+        } elseif ($part !== '.' && $part !== '') {
+            $resolved[] = $part;
+        }
+    }
+    
+    return '/' . implode('/', $resolved);
 }
 
 /**

@@ -109,5 +109,3 @@ try {
     logError('Registration error: General error', ['error' => $e->getMessage()]);
     redirectWithMessage('../register.php', 'error', 'An error occurred. Please try again later.');
 }
-?>
-
