@@ -161,9 +161,14 @@ Get your API key from: https://makersuite.google.com/app/apikey
 
 ### 5. Set Up Apache
 
-Ensure your Apache DocumentRoot points to the project directory, or access via:
+Ensure your Apache DocumentRoot points to the project directory. The application will automatically redirect to the `src/` folder:
 ```
 http://localhost/Individual%20Project/
+```
+
+Or access directly:
+```
+http://localhost/Individual%20Project/src/
 ```
 
 ### 6. File Permissions
@@ -177,38 +182,44 @@ chmod -R 755 logs/
 
 ```
 Individual-Project/
-├── api/                    # API endpoints
-│   ├── generate-quiz.php   # Quiz generation
-│   ├── submit-quiz.php     # Quiz submission & grading
-│   ├── login.php          # User authentication
-│   ├── register.php       # User registration
-│   └── logout.php         # Session logout
-├── config/                 # Configuration files
-│   ├── database.php       # Database connection
-│   ├── gemini.php         # Gemini AI configuration
-│   ├── courses.php        # Course definitions
-│   └── topics.php         # Course topics outline
-├── includes/              # Helper functions
-│   ├── functions.php      # Utility functions
-│   ├── question-bank-functions.php  # Question bank logic
-│   ├── similarity-functions.php     # Grading algorithms
-│   ├── header.php         # Common header
-│   └── footer.php         # Common footer
-├── css/                   # Stylesheets
-│   ├── style.css          # Main styles
-│   ├── quiz.css           # Quiz-specific styles
-│   └── responsive.css     # Mobile responsive
-├── js/                    # JavaScript files
-│   ├── timer.js           # Quiz timer
-│   └── validation.js      # Form validation
-├── logs/                  # Application logs
-├── index.php              # Landing page
-├── register.php           # Registration page
-├── dashboard.php          # Course selection
-├── quiz-config.php        # Quiz configuration
-├── quiz.php               # Active quiz interface
-├── results.php            # Quiz results display
-└── database.sql           # Complete database schema (all features included)
+├── src/                   # All PHP source code
+│   ├── api/              # API endpoints
+│   │   ├── generate-quiz.php   # Quiz generation
+│   │   ├── submit-quiz.php     # Quiz submission & grading
+│   │   ├── login.php          # User authentication
+│   │   ├── register.php       # User registration
+│   │   └── logout.php         # Session logout
+│   ├── config/           # Configuration files
+│   │   ├── database.php       # Database connection
+│   │   ├── gemini.php         # Gemini AI configuration
+│   │   ├── courses.php        # Course definitions
+│   │   └── topics.php         # Course topics outline
+│   ├── includes/         # Helper functions
+│   │   ├── functions.php      # Utility functions
+│   │   ├── question-bank-functions.php  # Question bank logic
+│   │   ├── similarity-functions.php     # Grading algorithms
+│   │   ├── header.php         # Common header
+│   │   └── footer.php         # Common footer
+│   ├── index.php         # Landing page
+│   ├── register.php      # Registration page
+│   ├── dashboard.php     # Course selection
+│   ├── quiz-config.php   # Quiz configuration
+│   ├── quiz.php          # Active quiz interface
+│   ├── results.php       # Quiz results display
+│   ├── test-gemini-api.php      # API testing tool
+│   ├── test-question-bank.php   # Question bank testing
+│   ├── diagnose-api.php         # API diagnostics
+│   └── run-migration.php        # Database migration runner
+├── css/                  # Stylesheets
+│   ├── style.css         # Main styles
+│   ├── quiz.css          # Quiz-specific styles
+│   └── responsive.css    # Mobile responsive
+├── js/                   # JavaScript files
+│   ├── timer.js          # Quiz timer
+│   └── validation.js     # Form validation
+├── logs/                 # Application logs
+├── index.php             # Root redirect to src/
+└── database.sql          # Complete database schema (all features included)
 ```
 
 ## 🎮 Usage
