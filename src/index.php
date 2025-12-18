@@ -6,11 +6,9 @@
 
 require_once 'includes/functions.php';
 
-// Redirect to dashboard if already logged in
-if (isLoggedIn()) {
-    header('Location: dashboard.php');
-    exit();
-}
+// Don't redirect logged-in users automatically
+// Allow them to see the landing page
+$isLoggedIn = isLoggedIn();
 
 $flashMessage = getFlashMessage();
 ?>
@@ -570,8 +568,15 @@ $flashMessage = getFlashMessage();
         <nav class="landing-nav">
             <div class="landing-logo">CS3 Quiz Platform</div>
             <div class="landing-nav-buttons">
-                <button class="btn-signin" onclick="showLoginModal()">Sign In</button>
-                <button class="btn-getstarted" onclick="showLoginModal()">Get Started</button>
+                <?php if ($isLoggedIn): ?>
+                    <span style="margin-right: 1rem; color: var(--primary-color); font-weight: 600;">
+                        Logged in as: <?php echo htmlspecialchars(getCurrentUsername()); ?>
+                    </span>
+                    <button class="btn-getstarted" onclick="window.location.href='api/logout.php'">Logout</button>
+                <?php else: ?>
+                    <button class="btn-signin" onclick="showLoginModal()">Sign In</button>
+                    <button class="btn-getstarted" onclick="showLoginModal()">Get Started</button>
+                <?php endif; ?>
             </div>
         </nav>
     </header>
@@ -579,10 +584,17 @@ $flashMessage = getFlashMessage();
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-content">
-            <h1>Master Computer Science with AI-Powered Quizzes</h1>
-            <p>Your comprehensive platform for third-year CS exam preparation and concept mastery</p>
+            <?php if ($isLoggedIn): ?>
+                <h1>Welcome back, <?php echo htmlspecialchars(getCurrentUsername()); ?>! 🎓</h1>
+                <p>Choose a course below to start your quiz</p>
+            <?php else: ?>
+                <h1>Master Computer Science with AI-Powered Quizzes</h1>
+                <p>Your comprehensive platform for third-year CS exam preparation and concept mastery</p>
+            <?php endif; ?>
             <div class="hero-cta">
-                <button class="btn-getstarted" onclick="showLoginModal()">Get Started Free</button>
+                <?php if (!$isLoggedIn): ?>
+                    <button class="btn-getstarted" onclick="showLoginModal()">Get Started Free</button>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -683,9 +695,14 @@ $flashMessage = getFlashMessage();
     
     <!-- CTA Section -->
     <section class="cta-section">
-        <h2>Ready to Ace Your Exams?</h2>
-        <p>Join CS3 Quiz Platform today and start mastering computer science concepts</p>
-        <button class="btn-getstarted" onclick="showLoginModal()">Get Started Free</button>
+        <?php if ($isLoggedIn): ?>
+            <h2>Ready to Start a Quiz?</h2>
+            <p>Choose a course above to begin your learning journey</p>
+        <?php else: ?>
+            <h2>Ready to Ace Your Exams?</h2>
+            <p>Join CS3 Quiz Platform today and start mastering computer science concepts</p>
+            <button class="btn-getstarted" onclick="showLoginModal()">Get Started Free</button>
+        <?php endif; ?>
     </section>
     
     <!-- Login Modal -->
@@ -764,6 +781,11 @@ $flashMessage = getFlashMessage();
         }
         
         function selectCourse(courseId) {
+            <?php if ($isLoggedIn): ?>
+            // User is logged in, go directly to quiz config
+            window.location.href = 'quiz-config.php?course=' + encodeURIComponent(courseId);
+            <?php else: ?>
+            // User not logged in, show login modal
             // Store the selected course
             document.getElementById('redirect_course').value = courseId;
             
@@ -774,6 +796,7 @@ $flashMessage = getFlashMessage();
             
             // Show login modal
             showLoginModal();
+            <?php endif; ?>
         }
         
         function goToRegister(event) {
