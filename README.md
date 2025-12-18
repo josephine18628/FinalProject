@@ -1,246 +1,458 @@
-# CS3 Quiz Web Application
+# CS3 Quiz Platform
 
-A full-stack web application for third-year computer science students to practice quizzes. The app generates questions using AI (OpenRouter) with textbook-based knowledge, includes deduplication logic, and provides an admin dashboard for managing questions and courses.
+A dynamic web-based quiz application for third-year Computer Science students, featuring AI-powered question generation, intelligent grading, and comprehensive quiz management.
 
-## Tech Stack
+## 🎯 Overview
 
-- **Frontend**: React, TailwindCSS
-- **Backend**: FastAPI, Python
-- **Database**: PostgreSQL
-- **AI Integration**: OpenRouter (LLM)
-- **Authentication**: JWT
+The CS3 Quiz Platform is designed to help Computer Science students practice and assess their knowledge across 11 core courses. The platform uses Google's Gemini AI to generate contextually relevant questions from course textbooks and provides intelligent, content-based grading for essay and calculation questions.
 
-## Features
+## ✨ Key Features
 
-- **AI-Generated Quizzes**: Generate questions using OpenRouter LLM
-- **Question Deduplication**: Semantic similarity checking to prevent duplicate questions
-- **Multiple Question Formats**: MCQ, True/False, Essay, Calculation, and Mixed
-- **Automatic Grading**: Grading for MCQ, True/False, and Calculation questions
-- **AI Essay Grading**: LLM-based rubric scoring for essay questions
-- **Admin Dashboard**: Full CRUD operations for questions, courses, and analytics
-- **Student Dashboard**: Create and take quizzes with timer functionality
+### 🤖 AI-Powered Quiz Generation
+- Integration with Google Gemini AI for dynamic question generation
+- Questions generated from official course textbooks
+- Support for multiple question formats:
+  - Multiple Choice Questions (MCQ)
+  - True/False Questions
+  - Essay Questions
+  - Calculation Problems
+  - Mixed Format Quizzes
 
-## Prerequisites
+### 📚 Course Coverage
+The platform covers 11 Computer Science courses:
+1. Hardware Systems
+2. Web Technologies
+3. C++ Programming
+4. Algorithms & Data Structures
+5. Research Methods
+6. Modeling & Simulation
+7. Software Engineering
+8. Computer Architecture
+9. Operating Systems
+10. Database Systems
+11. Computer Networks
 
-- Python 3.8+
-- Node.js 16+
-- PostgreSQL 15+
-- Docker (optional, for PostgreSQL)
+### 🎓 Topic-Based Learning
+- Comprehensive topic outlines for each course (based on textbook chapters)
+- Select specific topics for focused practice
+- Topics organized by categories for easy navigation
 
-## Setup Instructions
+### 🧠 Intelligent Grading System
+**Per-Question Grading with Content-Based Analysis:**
 
-### 1. Backend Setup
+| Match Range | Score | Description |
+|-------------|-------|-------------|
+| >80% | 100% | Full Marks - Contains all/nearly all key concepts |
+| 50-80% | 50% | Half Marks - Contains main concepts |
+| 20-50% | 25% | Quarter Marks - Shows some understanding |
+| <20% | 10% | Minimal Credit - Limited coverage |
 
-1. Navigate to the backend directory:
+**For Calculation Questions:**
+- Correct answer → 100%
+- Correct method, wrong answer → 50%
+- Partial method → 25%
+- Show your working to earn partial credit!
+
+### 💾 Question Bank System
+- Generated questions saved to database
+- Questions reused across users to reduce API calls
+- Track user history to prevent repeat questions
+- Smart question selection algorithm
+
+### ⏱️ Quiz Features
+- Configurable difficulty levels (Beginner, Intermediate, Advanced)
+- Adjustable number of questions (1-50)
+- Built-in timer with visual countdown
+- Auto-submission when time expires
+- Retake quiz option from results page
+
+### 📊 Results & Analytics
+- Detailed feedback for each question
+- Content coverage analysis showing matched concepts
+- Side-by-side comparison with model answers
+- Overall quiz statistics
+- Performance tracking across attempts
+
+### 🎨 Modern UI/UX
+- Wayground-inspired design
+- Green, white, and orange color scheme
+- Responsive layout for all devices
+- Smooth animations and transitions
+- Intuitive navigation
+
+## 🛠️ Technology Stack
+
+### Backend
+- **PHP 8.x** - Server-side logic
+- **MySQL** - Database management
+- **Apache** - Web server (via XAMPP)
+
+### Frontend
+- **HTML5** - Structure
+- **CSS3** - Styling with custom variables
+- **JavaScript (Vanilla)** - Client-side functionality
+
+### APIs & Services
+- **Google Gemini AI** - Question generation
+- **Gemini 2.5 Flash** - Current model (December 2025)
+
+### Development Tools
+- **XAMPP** - Local development environment
+- **Git** - Version control
+
+## 📋 Prerequisites
+
+- PHP 8.0 or higher
+- MySQL 5.7 or higher
+- Apache web server
+- XAMPP (recommended) or similar local server environment
+- Google Gemini API key
+
+## 🚀 Installation
+
+### 1. Clone or Download the Project
 ```bash
-cd backend
+git clone <repository-url>
+cd Individual-Project
 ```
 
-2. Create a virtual environment:
+### 2. Set Up Database
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Start XAMPP and ensure MySQL is running
+# Open phpMyAdmin (http://localhost/phpmyadmin)
+# Import the database schema
 ```
 
-3. Install dependencies:
+Run the database setup file:
 ```bash
-pip install -r requirements.txt
+# Using command line
+mysql -u root < database.sql
+
+# OR import via phpMyAdmin
+# 1. Open http://localhost/phpmyadmin
+# 2. Click "Import" tab
+# 3. Choose database.sql file
+# 4. Click "Go"
 ```
 
-4. Set up environment variables:
+This will create:
+- Database: `cs3_quiz_platform`
+- All required tables with indexes
+- Demo user account (username: demo, password: demo123)
+
+### 3. Configure Database Connection
+
+Edit `config/database.php`:
+```php
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'cs3_quiz_platform');
+define('DB_USER', 'root');
+define('DB_PASS', ''); // Your MySQL password
+```
+
+### 4. Configure Gemini API
+
+Edit `config/gemini.php`:
+```php
+define('GEMINI_API_KEY', 'your-api-key-here');
+```
+
+Get your API key from: https://makersuite.google.com/app/apikey
+
+### 5. Set Up Apache
+
+Ensure your Apache DocumentRoot points to the project directory, or access via:
+```
+http://localhost/Individual%20Project/
+```
+
+### 6. File Permissions
+
+Ensure the `logs/` directory is writable:
 ```bash
-cp .env.example .env
+chmod -R 755 logs/
 ```
 
-Edit `.env` with your configuration:
+## 📁 Project Structure
+
 ```
-DATABASE_URL=mysql+pymysql://root:@localhost:3306/cs3
-JWT_SECRET=your-secret-key-change-this
-OPENROUTER_API_KEY=your-openrouter-api-key
-OPENROUTER_MODEL=tngtech/deepseek-r1t2-chimera:free
-EMBEDDING_API_URL=https://api.openai.com/v1/embeddings
-EMBEDDING_API_KEY=your-embedding-api-key
-EMBEDDING_MODEL=text-embedding-ada-002
+Individual-Project/
+├── api/                    # API endpoints
+│   ├── generate-quiz.php   # Quiz generation
+│   ├── submit-quiz.php     # Quiz submission & grading
+│   ├── login.php          # User authentication
+│   ├── register.php       # User registration
+│   └── logout.php         # Session logout
+├── config/                 # Configuration files
+│   ├── database.php       # Database connection
+│   ├── gemini.php         # Gemini AI configuration
+│   ├── courses.php        # Course definitions
+│   └── topics.php         # Course topics outline
+├── includes/              # Helper functions
+│   ├── functions.php      # Utility functions
+│   ├── question-bank-functions.php  # Question bank logic
+│   ├── similarity-functions.php     # Grading algorithms
+│   ├── header.php         # Common header
+│   └── footer.php         # Common footer
+├── css/                   # Stylesheets
+│   ├── style.css          # Main styles
+│   ├── quiz.css           # Quiz-specific styles
+│   └── responsive.css     # Mobile responsive
+├── js/                    # JavaScript files
+│   ├── timer.js           # Quiz timer
+│   └── validation.js      # Form validation
+├── logs/                  # Application logs
+├── index.php              # Landing page
+├── register.php           # Registration page
+├── dashboard.php          # Course selection
+├── quiz-config.php        # Quiz configuration
+├── quiz.php               # Active quiz interface
+├── results.php            # Quiz results display
+└── database.sql           # Complete database schema (all features included)
 ```
 
-5. Start PostgreSQL (using Docker):
+## 🎮 Usage
+
+### 1. Registration & Login
+1. Navigate to `http://localhost/Individual%20Project/`
+2. Click "Get Started" or select a course
+3. Register with your details or login if you have an account
+
+### 2. Select a Course
+- View all 11 available courses on the dashboard
+- Click on any course card to start configuring a quiz
+
+### 3. Configure Your Quiz
+**Step 1: Select Topics**
+- Choose from categorized topics based on textbook chapters
+- Use "Select All" or pick specific topics
+- See live counter of selected topics
+
+**Step 2: Question Format**
+- Multiple Choice Questions (MCQ)
+- True/False
+- Essay Questions
+- Calculation Problems
+- All Types (Mixed)
+
+**Step 3: Difficulty Level**
+- Beginner - Basic concepts
+- Intermediate - Standard exam level
+- Advanced - Complex problems
+
+**Step 4: Number of Questions**
+- Single format: 1-50 questions
+- Mixed format: Specify count per type
+
+### 4. Take the Quiz
+- Read each question carefully
+- For calculations: Show your working to earn partial credit
+- Monitor the countdown timer
+- Submit before time runs out or quiz auto-submits
+
+### 5. View Results
+- See your overall score
+- Review each question with detailed feedback
+- Compare your answers with model answers
+- See content coverage analysis
+- Retake quiz if desired
+
+## 🔧 Configuration Options
+
+### Gemini API Settings
+File: `config/gemini.php`
+```php
+define('GEMINI_API_KEY', 'your-key');
+define('GEMINI_API_URL', 'v1beta/models/gemini-2.5-flash');
+```
+
+### Grading Thresholds
+File: `includes/similarity-functions.php`
+```php
+// Modify these values to adjust grading strictness
+if ($coveragePercent > 80) {
+    $finalScore = 100;  // Full marks threshold
+} elseif ($coveragePercent >= 50) {
+    $finalScore = 50;   // Half marks threshold
+} elseif ($coveragePercent >= 20) {
+    $finalScore = 25;   // Quarter marks threshold
+}
+```
+
+### Timer Duration
+Default quiz duration is calculated based on question count and type. Modify in `quiz.php`:
+```php
+// 2 minutes per MCQ/True-False, 5 minutes per essay/calculation
+$timePerQuestion = ($questionType === 'mcq' || $questionType === 'true_false') ? 2 : 5;
+$totalMinutes = $numQuestions * $timePerQuestion;
+```
+
+## 🗄️ Database Schema
+
+### Main Tables
+
+**users**
+- User accounts and authentication
+
+**quiz_attempts**
+- Quiz sessions and overall scores
+
+**quiz_responses**
+- Individual question responses and grading
+
+**question_bank**
+- Generated questions for reuse
+
+**user_question_history**
+- Track which questions each user has seen
+
+## 🎨 Customization
+
+### Changing Color Scheme
+Edit `css/style.css`:
+```css
+:root {
+    --primary-color: #22c55e;      /* Green */
+    --secondary-color: #ff6b35;    /* Orange */
+    --accent-color: #10b981;       /* Bright Green */
+}
+```
+
+### Adding New Courses
+1. Edit `config/courses.php` - Add course definition
+2. Edit `config/topics.php` - Add course topics
+3. Course will automatically appear on dashboard
+
+## 🧪 Testing
+
+### Test Gemini API Connection
 ```bash
-docker-compose up -d
+php test-gemini-api.php
 ```
 
-Or use your own PostgreSQL instance.
-
-6. Run database migrations:
+### Test Question Bank
 ```bash
-# Initialize Alembic (if not already done)
-alembic revision --autogenerate -m "Initial migration"
-alembic upgrade head
+php test-question-bank.php
 ```
 
-7. Start the FastAPI server:
-```bash
-uvicorn app.main:app --reload --port 8000
+### Test Database Connection
+Access: `http://localhost/Individual%20Project/diagnose-api.php`
+
+## 🔒 Security Features
+
+- **Password Hashing** - Using PHP's `password_hash()`
+- **SQL Injection Prevention** - PDO prepared statements
+- **CSRF Protection** - Token-based validation
+- **Session Security** - Secure session handling
+- **Input Sanitization** - All user inputs sanitized
+- **XSS Prevention** - Output escaping with `htmlspecialchars()`
+
+## 📊 Key Algorithms
+
+### Content Coverage Analysis
+1. Extract key concepts (4+ character words) from model answer
+2. Check presence in user answer
+3. Calculate match percentage: `(found concepts / total concepts) × 100`
+4. Apply grading thresholds per question
+
+### Question Bank Selection
+1. Check database for unused questions matching criteria
+2. Exclude questions user has already seen
+3. If insufficient questions, generate new ones via Gemini AI
+4. Save new questions to bank for future use
+
+## 🐛 Troubleshooting
+
+### Gemini API Errors
+- Verify API key is correct
+- Check API is enabled in Google Cloud Console
+- Ensure using correct model version
+- Check internet connectivity
+
+### Database Connection Issues
+- Verify MySQL is running in XAMPP
+- Check database credentials in `config/database.php`
+- Ensure database exists and migrations are run
+
+### Quiz Timer Not Working
+- Clear browser cache (Ctrl + Shift + R)
+- Check browser console for JavaScript errors
+- Verify `js/timer.js` is loading
+
+### Questions Not Saving
+- Check question bank migration is applied
+- Verify database permissions
+- Check PHP error logs in `logs/` directory
+
+## 📝 API Endpoints
+
+### POST `/api/generate-quiz.php`
+Generate a new quiz
+```json
+{
+    "course_id": "web_technologies",
+    "question_format": "mcq",
+    "difficulty": "intermediate",
+    "num_questions": 10,
+    "topics": ["HTML5", "CSS3", "JavaScript"]
+}
 ```
 
-### 2. Frontend Setup
-
-1. Navigate to the frontend directory:
-```bash
-cd frontend
+### POST `/api/submit-quiz.php`
+Submit quiz for grading
+```json
+{
+    "answer_0": "User's answer",
+    "answer_1": "User's answer",
+    "working_1": "Calculation steps"
+}
 ```
 
-2. Install dependencies:
-```bash
-npm install
+### POST `/api/login.php`
+User authentication
+```json
+{
+    "email": "user@example.com",
+    "password": "password"
+}
 ```
 
-3. Create `.env` file:
-```
-REACT_APP_API_URL=http://localhost:8000
-```
+## 🤝 Contributing
 
-4. Start the development server:
-```bash
-npm start
-```
+This is an academic project. For improvements or bug fixes:
+1. Test thoroughly in local environment
+2. Ensure all features work as expected
+3. Document any changes made
 
-The frontend will be available at `http://localhost:3000`.
+## 📄 License
 
-## Database Schema
+This project is created for academic purposes.
 
-The application uses the following main tables:
+## 👥 Credits
 
-- **users**: User accounts (students and admins)
-- **courses**: Course information
-- **questions**: Question bank with metadata
-- **question_options**: Options for MCQ and True/False questions
-- **quiz_sessions**: Quiz session tracking
-- **quiz_responses**: Student answers and grading results
-- **ai_generation_logs**: AI generation tracking and analytics
+- **Gemini AI** - Question generation
+- **Wayground** - UI/UX inspiration
+- Course materials based on standard CS textbooks
 
-## Usage
+## 📞 Support
 
-### Student Registration and Login
+For issues or questions:
+1. Check troubleshooting section
+2. Review error logs in `logs/` directory
+3. Test API connectivity with diagnostic tools
 
-1. Navigate to the registration page
-2. Create a student account
-3. Login to access the dashboard
+## 🔄 Version History
 
-### Creating a Quiz
+**Current Version: 2.1**
+- Enhanced content-based grading (>80%, 50-80%, 20-50%, <20%)
+- Per-question grading implementation
+- Topic selection feature
+- Question bank system
+- Similarity-based grading for essays and calculations
+- Retake quiz functionality
+- Wayground-inspired UI redesign
 
-1. Click "Create New Quiz" on the dashboard
-2. Select:
-   - Course
-   - Question format (MCQ, True/False, Essay, Calculation, or Mixed)
-   - Difficulty level (Beginner, Intermediate, Advanced)
-   - Number of questions
-3. Click "Generate Quiz"
-4. The AI will generate questions and calculate duration
-5. Start the quiz and answer questions
-6. Submit to receive automatic grading and feedback
+---
 
-### Admin Dashboard
-
-1. Create an admin account using the `/auth/admin-register` endpoint (temporary endpoint)
-2. Login as admin
-3. Access the admin dashboard with:
-   - **Statistics**: Overview of questions, courses, quizzes, and users
-   - **Question Management**: CRUD operations with filtering
-   - **Course Management**: CRUD operations for courses
-   - **AI Logs**: View AI generation history and analytics
-
-## API Endpoints
-
-### Public Endpoints
-- `POST /auth/register` - Student registration
-- `POST /auth/login` - Login
-- `POST /auth/admin-register` - Admin registration (temporary)
-
-### Student Endpoints
-- `GET /quiz/{session_id}` - Get quiz details
-- `POST /quiz/generate` - Generate new quiz
-- `POST /quiz/{session_id}/start` - Start quiz
-- `POST /quiz/{session_id}/submit` - Submit answers
-
-### Admin Endpoints
-- `GET /admin/questions` - List questions (with filters)
-- `POST /admin/questions` - Create question
-- `PUT /admin/questions/{id}` - Update question
-- `DELETE /admin/questions/{id}` - Delete question
-- `GET /admin/courses` - List courses
-- `POST /admin/courses` - Create course
-- `PUT /admin/courses/{id}` - Update course
-- `DELETE /admin/courses/{id}` - Delete course
-- `GET /admin/logs` - AI generation logs
-- `GET /admin/stats` - Dashboard statistics
-
-## Project Structure
-
-```
-cs3-quiz-app/
-├── backend/
-│   ├── app/
-│   │   ├── api/routes/      # API route handlers
-│   │   ├── models/          # SQLAlchemy models
-│   │   ├── schemas/         # Pydantic schemas
-│   │   ├── services/        # Business logic (AI, grading, deduplication)
-│   │   └── utils/           # Utilities (JWT, embeddings)
-│   ├── alembic/             # Database migrations
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── pages/           # Page components
-│   │   ├── services/        # API client
-│   │   └── context/         # React context
-│   └── package.json
-└── docker-compose.yml       # PostgreSQL setup
-```
-
-## Key Features Implementation
-
-### Question Deduplication
-
-The system uses semantic similarity (embedding-based cosine similarity) to detect duplicates:
-- Threshold: 0.90 cosine similarity
-- Uses external embedding API (OpenAI or Hugging Face)
-- Checks both exact matches and semantic similarity
-
-### AI Question Generation
-
-- Uses OpenRouter API for LLM access
-- Structured JSON prompts ensure accuracy
-- Textbook-based knowledge constraints
-- Automatic duration calculation based on question type and difficulty
-
-### Grading System
-
-- **MCQ/True-False**: Exact match comparison
-- **Calculation**: Numeric tolerance (configurable)
-- **Essay**: LLM-based rubric scoring via OpenRouter
-
-## Environment Variables
-
-### Backend (.env)
-- `DATABASE_URL`: PostgreSQL connection string
-- `JWT_SECRET`: Secret key for JWT tokens
-- `OPENROUTER_API_KEY`: OpenRouter API key
-- `OPENROUTER_MODEL`: Model to use (default: tngtech/deepseek-r1t2-chimera:free)
-- `EMBEDDING_API_URL`: Embedding service URL
-- `EMBEDDING_API_KEY`: Embedding service API key
-- `EMBEDDING_MODEL`: Embedding model name
-
-### Frontend (.env)
-- `REACT_APP_API_URL`: Backend API URL
-
-## Troubleshooting
-
-1. **Database Connection Issues**: Ensure PostgreSQL is running and DATABASE_URL is correct
-2. **Migration Errors**: Run `alembic upgrade head` to apply migrations
-3. **OpenRouter API Errors**: Verify API key and model name in .env
-4. **CORS Issues**: Check CORS settings in `backend/app/main.py`
-
-## License
-
-This project is for educational purposes.
+**Built with ❤️ for Computer Science Education**
 
