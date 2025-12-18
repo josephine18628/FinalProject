@@ -1,6 +1,9 @@
 Web App Link:
 https://josephineallan.rf.gd
 
+Video Link:
+https://youtu.be/YjpIvGyiOx0
+
 # CS3 Quiz Platform
 
 A dynamic web-based quiz application for third-year Computer Science students, featuring AI-powered question generation, intelligent grading, and comprehensive quiz management.
