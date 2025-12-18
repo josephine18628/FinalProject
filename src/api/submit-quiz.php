@@ -231,8 +231,7 @@ try {
     unset($_SESSION['current_quiz']);
     
     // Redirect to results page
-    header('Location: ../results.php?attempt=' . $attemptId);
-    exit();
+    redirectWithMessage('../results.php?attempt=' . $attemptId, 'success', 'Quiz submitted successfully!');
     
 } catch (PDOException $e) {
     $pdo->rollBack();
@@ -251,5 +250,3 @@ try {
     ]);
     redirectWithMessage('../dashboard.php', 'error', 'An error occurred. Please try again.');
 }
-?>
-
