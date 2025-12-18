@@ -20,8 +20,8 @@ $flashMessage = getFlashMessage();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CS3 Quiz Platform - Master Computer Science Concepts</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <style>
         * {
             margin: 0;
@@ -732,7 +732,7 @@ $flashMessage = getFlashMessage();
         </div>
     </div>
     
-    <script src="js/validation.js"></script>
+    <script src="../js/validation.js"></script>
     <script>
         // Course name mapping for display
         const courseNames = {

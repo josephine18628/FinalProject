@@ -34,8 +34,8 @@ $flashMessage = getFlashMessage();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configure Quiz - <?php echo htmlspecialchars($course['name']); ?></title>
-    <link rel="stylesheet" href="css/style.css?v=2.0">
-    <link rel="stylesheet" href="css/responsive.css?v=2.0">
+    <link rel="stylesheet" href="../css/style.css?v=2.0">
+    <link rel="stylesheet" href="../css/responsive.css?v=2.0">
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
@@ -376,7 +376,7 @@ $flashMessage = getFlashMessage();
             }
         });
     </script>
-    <script src="js/validation.js"></script>
+    <script src="../js/validation.js"></script>
 </body>
 </html>
 

@@ -32,9 +32,9 @@ $courseName = $quiz['course_name'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz - <?php echo htmlspecialchars($courseName); ?></title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/quiz.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/quiz.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body class="quiz-page">
     <div class="quiz-header-fixed">
@@ -146,8 +146,8 @@ $courseName = $quiz['course_name'];
         window.timeAllowed = <?php echo $timeAllowed; ?>;
         window.startTime = <?php echo $quiz['start_time']; ?>;
     </script>
-    <script src="js/timer.js"></script>
-    <script src="js/quiz.js"></script>
+    <script src="../js/timer.js"></script>
+    <script src="../js/quiz.js"></script>
 </body>
 </html>
 

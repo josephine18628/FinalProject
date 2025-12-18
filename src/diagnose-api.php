@@ -7,7 +7,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once 'config/gemini.php';
+require_once '../config/gemini.php';
 
 echo "<h1>Gemini API Diagnostic Tool</h1>";
 echo "<style>body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }

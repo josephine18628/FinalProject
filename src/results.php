@@ -89,9 +89,9 @@ if (isset($_SESSION['quiz_results'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Results - CS3 Quiz Platform</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/quiz.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/quiz.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
@@ -289,7 +289,7 @@ if (isset($_SESSION['quiz_results'])) {
     </div>
 
     <?php include 'includes/footer.php'; ?>
-    <script src="js/validation.js"></script>
+    <script src="../js/validation.js"></script>
 </body>
 </html>
 
