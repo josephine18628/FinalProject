@@ -568,8 +568,11 @@ $flashMessage = getFlashMessage();
             <div class="landing-logo">CS3 Quiz Platform</div>
             <div class="landing-nav-buttons">
                 <?php if ($isLoggedIn): ?>
+                    <span style="margin-right: 1rem; color: var(--primary-color); font-weight: 600;">
+                        Welcome, <?php echo htmlspecialchars(getCurrentUsername()); ?>!
+                    </span>
                     <button class="btn-signin" onclick="window.location.href='dashboard.php'">Dashboard</button>
-                    <button class="btn-getstarted" onclick="window.location.href='dashboard.php'">Go to Dashboard</button>
+                    <button class="btn-getstarted" onclick="window.location.href='api/logout.php'">Logout</button>
                 <?php else: ?>
                     <button class="btn-signin" onclick="showLoginModal()">Sign In</button>
                     <button class="btn-getstarted" onclick="showLoginModal()">Get Started</button>
@@ -694,11 +697,13 @@ $flashMessage = getFlashMessage();
     
     <!-- CTA Section -->
     <section class="cta-section">
-        <h2>Ready to Ace Your Exams?</h2>
-        <p>Join CS3 Quiz Platform today and start mastering computer science concepts</p>
         <?php if ($isLoggedIn): ?>
+            <h2>Continue Your Learning Journey!</h2>
+            <p>You're all set! Choose a course above or visit your dashboard to continue.</p>
             <button class="btn-getstarted" onclick="window.location.href='dashboard.php'">Go to Dashboard</button>
         <?php else: ?>
+            <h2>Ready to Ace Your Exams?</h2>
+            <p>Join CS3 Quiz Platform today and start mastering computer science concepts</p>
             <button class="btn-getstarted" onclick="showLoginModal()">Get Started Free</button>
         <?php endif; ?>
     </section>
