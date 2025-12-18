@@ -5,10 +5,10 @@
  */
 
 // Database configuration constants
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'cs3_quiz_platform');
-define('DB_USER', 'root');
-define('DB_PASS', ''); // Default XAMPP password is empty
+define('DB_HOST', 'sql100.infinityfree.com');
+define('DB_NAME', 'if0_40620904_cs3');
+define('DB_USER', 'if0_40620904');
+define('DB_PASS', '0sTZV0EYWPIa'); // Default XAMPP password is empty
 define('DB_CHARSET', 'utf8mb4');
 
 /**
